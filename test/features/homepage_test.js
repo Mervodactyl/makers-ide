@@ -6,7 +6,7 @@ var fs = require('fs');
 
 describe('home page', function() {
   var browser;
-  
+
   before(function() {
     this.server = server.listen(3000);
     // initialize the browser using the same port as the test application
@@ -30,9 +30,18 @@ describe('home page', function() {
     expect(browser.text('.files a:first-child')).to.eql('_test.txt');
   });
 
+  // BAAAAAAAAAAAAAAM!!!!!!
+  it('there should be no file left after delete button is clicked', function(){
+    browser.onconfirm("Really delete this file?", true);
+    browser.fire('.files a:first-child img:last-child','click',function(){
+      expect(browser.text('.files a:first-child')).not.to.eql('_test.txt');
+    });
+  });
+
   it('takes you to an edit page when a file is selected', function(){
     browser.clickLink('_test.txt', function(){
       expect(browser.location.pathname).to.eql('/edit?file=_test.txt');
     })
   });
+
 });

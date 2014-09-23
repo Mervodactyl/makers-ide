@@ -7,7 +7,7 @@ $(document).ready(function(){
       $.ajax('/files?file=' + $(this).data('file'), {
         type: 'delete',
         success: function() {
-          $item.addClass('removed-item');      
+          $item.addClass('removed-item');
         }
       })
     }
