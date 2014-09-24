@@ -7,7 +7,7 @@ fs = require('fs')
 describe 'home page',  ->
 
   before ->
-    @server = server.listen(3000)
+    server = server.listen(3000)
     @browser = new Browser { site: 'http://localhost:3000' }
     fs.writeFile 'code/_test.txt', 'Lorem ipsum'
 
@@ -26,9 +26,8 @@ describe 'home page',  ->
   it 'there should be no file left after delete button is clicked', ->
     @browser.onconfirm "Really delete this file?", true
     @browser.fire '.files a:first-child img:last-child', 'click', =>
-      @browser.wait 500000, =>
-        expect(@browser.text '.files a:first-child' ).not.to.be '_test.txt'
+      expect(@browser.evaluate "$('.files a:first-child').attr('class')" ).to.be 'removed-item'
 
-  #it 'takes you to an edit page when a file is selected', ->
-    #@browser.clickLink '_test.txt', =>
-      #expect(@browser.location.pathname).to.eql '/edit?file=_test.txt'
+  it 'takes you to an edit page when a file is selected', ->
+    @browser.evaluate "$('.files a:first-child').click()", =>
+      expect(@browser.location.pathname).to.eql '/edit?file=_test.txt'
