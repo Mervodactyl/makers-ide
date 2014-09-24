@@ -33,9 +33,10 @@ describe('home page', function() {
   // BAAAAAAAAAAAAAAM!!!!!!
   it('there should be no file left after delete button is clicked', function(){
     browser.onconfirm("Really delete this file?", true);
-    browser.fire('.files a:first-child img:last-child','click',function(){
-      expect(browser.text('.files a:first-child')).not.to.eql('_test.txt');
-    });
+    browser.fire('.files a:first-child img:last-child','click').
+			then(function() {
+				expect(browser.text('.files a:first-child')).not.to.eql('_test.txt');
+			});
   });
 
   it('takes you to an edit page when a file is selected', function(){
